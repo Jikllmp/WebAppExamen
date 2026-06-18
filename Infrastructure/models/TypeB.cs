@@ -1,0 +1,7 @@
+namespace Infrastructure.Models;
+
+public class TypeB
+{
+    public int Id { get; set; }
+    public string Libele { get; set; } = string.Empty;
+}
