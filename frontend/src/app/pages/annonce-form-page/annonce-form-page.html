@@ -1,0 +1,67 @@
+<div class="form-container">
+  <h2>{{ annonceId ? 'Modifier' : 'Publier' }} une annonce</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="titre">Titre</label>
+      <input type="text" id="titre" formControlName="titre">
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="prix">Prix</label>
+      <input type="number" id="prix" formControlName="prix">
+    </div>
+
+    <div class="form-group">
+      <label for="nombrePieces">Nombre de pièces</label>
+      <input type="number" id="nombrePieces" formControlName="nombrePieces">
+    </div>
+
+    <div class="form-group">
+      <label for="superficie">Superficie (m²)</label>
+      <input type="number" id="superficie" formControlName="superficie">
+    </div>
+
+    <div class="form-group checkbox">
+      <label><input type="checkbox" formControlName="jardin"> Jardin</label>
+      <label><input type="checkbox" formControlName="garage"> Garage</label>
+    </div>
+
+    <div class="form-group">
+      <label for="regionId">Région</label>
+      <select id="regionId" formControlName="regionId">
+        <option [value]="null">Choisir...</option>
+        @for (region of regions; track region.id) {
+          <option [value]="region.id">{{ region.nom }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="typeBienId">Type de bien</label>
+      <select id="typeBienId" formControlName="typeBienId">
+        <option [value]="null">Choisir...</option>
+        @for (type of typesBien; track type.id) {
+          <option [value]="type.id">{{ type.libelle }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Commodités</label>
+      @for (commodite of commodites; track commodite.id) {
+        <label class="commodite-item">
+          <input type="checkbox" [checked]="isCommoditeChecked(commodite.id)" (change)="toggleCommodite(commodite.id)">
+          {{ commodite.libelle }}
+        </label>
+      }
+    </div>
+
+    <button type="submit" [disabled]="form.invalid">{{ annonceId ? 'Modifier' : 'Publier' }}</button>
+  </form>
+</div>

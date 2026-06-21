@@ -19,11 +19,11 @@ export class AnnonceService {
     return this.http.get<Annonce>(`${this.apiUrl}/${id}`);
   }
 
-  create(annonce: Partial<Annonce>): Observable<any> {
+  create(annonce: any): Observable<any> {
     return this.http.post(this.apiUrl, annonce);
   }
 
-  update(id: number, annonce: Partial<Annonce>): Observable<any> {
+  update(id: number, annonce: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, annonce);
   }
 
