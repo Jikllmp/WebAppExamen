@@ -1,0 +1,45 @@
+@if (annonce) {
+  <div class="detail-container">
+    <h1>{{ annonce.titre }}</h1>
+    <p class="prix">{{ annonce.prix }} €</p>
+
+    <div class="infos">
+      <span>{{ annonce.nombrePieces }} pièces</span>
+      <span>{{ annonce.superficie }} m²</span>
+      <span>{{ annonce.region.nom }}</span>
+      <span>{{ annonce.typeBien.libelle }}</span>
+      @if (annonce.jardin) {
+        <span>Jardin</span>
+      }
+      @if (annonce.garage) {
+        <span>Garage</span>
+      }
+    </div>
+
+    <p class="description">{{ annonce.description }}</p>
+
+    <div class="commodites">
+      @for (commodite of annonce.commodites; track commodite.id) {
+        <span class="badge">{{ commodite.libelle }}</span>
+      }
+    </div>
+
+    <p class="agence">Publié par {{ annonce.agence.nom }} {{ annonce.agence.prenom }} — {{ annonce.agence.telephone }}</p>
+
+    <div class="actions">
+      <button (click)="ajouterFavori()">Ajouter aux favoris</button>
+    </div>
+
+    <div class="rdv-section">
+      <h3>Prendre rendez-vous</h3>
+      <input type="datetime-local" [(ngModel)]="dateRdv">
+      <button (click)="prendreRdv()">Réserver</button>
+    </div>
+
+    @if (message) {
+      <p class="message">{{ message }}</p>
+    }
+  </div>
+} @else {
+  <p>Chargement...</p>
+}

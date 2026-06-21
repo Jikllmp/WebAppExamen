@@ -1,0 +1,44 @@
+<div class="home-container">
+  <aside class="filters">
+    <h3>Filtres</h3>
+
+    <div class="filter-group">
+      <label>Prix maximum</label>
+      <input type="number" [(ngModel)]="filtrePrixMax" placeholder="Ex: 300000">
+    </div>
+
+    <div class="filter-group">
+      <label>Région</label>
+      <select [(ngModel)]="filtreRegionId">
+        <option [value]="null">Toutes</option>
+        @for (region of regions; track region.id) {
+          <option [value]="region.id">{{ region.nom }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Type de bien</label>
+      <select [(ngModel)]="filtreTypeBienId">
+        <option [value]="null">Tous</option>
+        @for (type of typesBien; track type.id) {
+          <option [value]="type.id">{{ type.libelle }}</option>
+        }
+      </select>
+    </div>
+  </aside>
+
+  <main class="annonces-list">
+    @if (annoncesFiltered.length === 0) {
+      <p>Aucune annonce trouvée.</p>
+    } @else {
+      @for (annonce of annoncesFiltered; track annonce.id) {
+        <a [routerLink]="['/annonces', annonce.id]" class="annonce-card">
+          <h3>{{ annonce.titre }}</h3>
+          <p>{{ annonce.prix }} € — {{ annonce.nombrePieces }} pièces — {{ annonce.superficie }} m²</p>
+          <p>{{ annonce.region.nom }} — {{ annonce.typeBien.libelle }}</p>
+        </a>
+      }
+    }
+  </main>
+</div>
