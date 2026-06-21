@@ -1,0 +1,23 @@
+<div class="rdv-container">
+  <h2>Mes rendez-vous</h2>
+
+  @if (rdvs.length === 0) {
+    <p>Aucun rendez-vous.</p>
+  } @else {
+    @for (rdv of rdvs; track rdv.id) {
+      <div class="rdv-card">
+        <a [routerLink]="['/annonces', rdv.annonce.id]">
+          <h3>{{ rdv.annonce.titre }}</h3>
+        </a>
+        <p>Date : {{ rdv.dateRdv }}</p>
+        <p>Statut : {{ rdv.statut }}</p>
+
+        @if (isAgence) {
+          <p>Particulier : {{ rdv.particulier.nom }} {{ rdv.particulier.prenom }} — {{ rdv.particulier.telephone }} — {{ rdv.particulier.email }}</p>
+        }
+
+        <button (click)="annuler(rdv.id)">Annuler</button>
+      </div>
+    }
+  }
+</div>

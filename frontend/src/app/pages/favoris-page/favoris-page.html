@@ -1,0 +1,17 @@
+<div class="favoris-container">
+  <h2>Mes favoris</h2>
+
+  @if (favoris.length === 0) {
+    <p>Aucun favori pour le moment.</p>
+  } @else {
+    @for (favori of favoris; track favori.annonce.id) {
+      <div class="favori-card">
+        <a [routerLink]="['/annonces', favori.annonce.id]">
+          <h3>{{ favori.annonce.titre }}</h3>
+          <p>{{ favori.annonce.prix }} € — {{ favori.annonce.region.nom }}</p>
+        </a>
+        <button (click)="retirer(favori.annonce.id)">Retirer</button>
+      </div>
+    }
+  }
+</div>
