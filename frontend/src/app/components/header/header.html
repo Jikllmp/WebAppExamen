@@ -1,0 +1,21 @@
+<header class="header">
+  <a routerLink="/" class="logo">ImmoSearch</a>
+
+  <nav>
+    <a routerLink="/">Annonces</a>
+
+    @if (authState.isLoggedIn$ | async) {
+      @if (getRole() === 'Particulier') {
+        <a routerLink="/favoris">Favoris</a>
+        <a routerLink="/mes-rdv">Mes RDV</a>
+      }
+      @if (getRole() === 'Agence') {
+        <a routerLink="/annonces/nouvelle">Publier</a>
+        <a routerLink="/mes-rdv">Mes RDV</a>
+      }
+      <button (click)="logout()">Déconnexion</button>
+    } @else {
+      <a routerLink="/login">Connexion</a>
+    }
+  </nav>
+</header>
