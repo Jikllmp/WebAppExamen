@@ -11,7 +11,7 @@ public static class FavoriRoutes
 
         group.MapPost("/{annonceId}", (int annonceId, IFavoriUseCases useCases, HttpContext httpContext) =>
         {
-            var userId = int.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var userId = int.Parse(httpContext.User.FindFirst("nameid")!.Value);
             useCases.AddFavori(userId, annonceId);
             return Results.Created();
         })
@@ -20,7 +20,7 @@ public static class FavoriRoutes
 
         group.MapDelete("/{annonceId}", (int annonceId, IFavoriUseCases useCases, HttpContext httpContext) =>
         {
-            var userId = int.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var userId = int.Parse(httpContext.User.FindFirst("nameid")!.Value);
             useCases.DeleteFavori(annonceId);
             return Results.Ok();
         })
@@ -29,7 +29,7 @@ public static class FavoriRoutes
 
         group.MapGet("", (IFavoriUseCases useCases, HttpContext httpContext) =>
         {
-            var userId = int.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var userId = int.Parse(httpContext.User.FindFirst("nameid")!.Value);
             var favoris = useCases.GetFavori(userId);
             return Results.Ok(favoris);
         })

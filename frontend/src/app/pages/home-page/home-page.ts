@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AnnonceService } from '../../services/api/annonce';
@@ -17,26 +17,38 @@ export class HomePage implements OnInit {
   typesBien: TypeBien[] = [];
 
   filtrePrixMax: number | null = null;
-  filtreRegionId: number | null = null;
-  filtreTypeBienId: number | null = null;
+  filtreRegionId: string = '';
+  filtreTypeBienId: string = '';
 
-  constructor(private annonceService: AnnonceService) { }
+  constructor(
+    private annonceService: AnnonceService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.loadAnnonces();
-    this.annonceService.getRegions().subscribe(data => this.regions = data);
-    this.annonceService.getTypesBien().subscribe(data => this.typesBien = data);
+    this.annonceService.getRegions().subscribe(data => {
+      this.regions = data;
+      this.cdr.detectChanges();
+    });
+    this.annonceService.getTypesBien().subscribe(data => {
+      this.typesBien = data;
+      this.cdr.detectChanges();
+    });
   }
 
   loadAnnonces(): void {
-    this.annonceService.getAll().subscribe(data => this.annonces = data);
+    this.annonceService.getAll().subscribe(data => {
+      this.annonces = data;
+      this.cdr.detectChanges();
+    });
   }
 
   get annoncesFiltered(): Annonce[] {
     return this.annonces.filter(a => {
       if (this.filtrePrixMax && a.prix > this.filtrePrixMax) return false;
-      if (this.filtreRegionId && a.region.id !== this.filtreRegionId) return false;
-      if (this.filtreTypeBienId && a.typeBien.id !== this.filtreTypeBienId) return false;
+      if (this.filtreRegionId && a.region.id !== Number(this.filtreRegionId)) return false;
+      if (this.filtreTypeBienId && a.typeBien.id !== Number(this.filtreTypeBienId)) return false;
       return true;
     });
   }

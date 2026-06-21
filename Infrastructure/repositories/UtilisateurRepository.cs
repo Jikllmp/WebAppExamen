@@ -36,7 +36,7 @@ public class UtilisateurRepository : IUtilisateurRepository
     {
         const string sql = @"INSERT INTO Utilisateur 
             (Nom, Prenom, Email, MotDePasse, Telephone, Role, NumeroTVA) 
-            VALUES (@Nom, @Prenom, @Email, @MotDePasse, @Telephone, @Role, @NumeroTVA)";
+            VALUES (@Nom, @Prenom, @Email, @MotDePasse, @Tel, @Role, @NumTVA)";
         using var conn = CreateConnection();
         conn.Execute(sql, user);
     }

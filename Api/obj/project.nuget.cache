@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jNa+bVC722A=",
+  "dgSpecHash": "3zHGYNASqzk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\soufi\\WebAppExamen\\Api\\Api.csproj",
+  "projectFilePath": "C:\\Users\\soufi\\Downloads\\my-web-app-main\\webappexamen\\api\\Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\soufi\\.nuget\\packages\\bcrypt.net-next\\4.2.0\\bcrypt.net-next.4.2.0.nupkg.sha512",
     "C:\\Users\\soufi\\.nuget\\packages\\dapper\\2.1.79\\dapper.2.1.79.nupkg.sha512",

@@ -29,7 +29,7 @@ public static class AnnonceRoutes
 
         group.MapPost("", ([FromBody] Annonce annonce, IAnnonceUseCases useCases, HttpContext httpContext) =>
         {
-            var agenceId = int.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var agenceId = int.Parse(httpContext.User.FindFirst("nameid")!.Value);
             useCases.CreateAnnonce(annonce, agenceId, annonce.Commodites.Select(c => c.Id));
             return Results.Created();
         })
@@ -38,7 +38,7 @@ public static class AnnonceRoutes
 
         group.MapPut("/{id}", (int id, [FromBody] Annonce annonce, IAnnonceUseCases useCases, HttpContext httpContext) =>
         {
-            var agenceId = int.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var agenceId = int.Parse(httpContext.User.FindFirst("nameid")!.Value);
             annonce.Id = id;
             useCases.UpdateAnnonce(annonce, agenceId, annonce.Commodites.Select(c => c.Id));
             return Results.Ok();
@@ -48,7 +48,7 @@ public static class AnnonceRoutes
 
         group.MapDelete("/{id}", (int id, IAnnonceUseCases useCases, HttpContext httpContext) =>
         {
-            var agenceId = int.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var agenceId = int.Parse(httpContext.User.FindFirst("nameid")!.Value);
             useCases.DeleteAnnonce(id, agenceId);
             return Results.Ok();
         })

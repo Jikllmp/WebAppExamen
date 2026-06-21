@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,7 +22,8 @@ export class AnnonceFormPage implements OnInit {
     private fb: FormBuilder,
     private annonceService: AnnonceService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.form = this.fb.group({
       titre: ['', Validators.required],
@@ -39,9 +40,9 @@ export class AnnonceFormPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.annonceService.getRegions().subscribe(data => this.regions = data);
-    this.annonceService.getTypesBien().subscribe(data => this.typesBien = data);
-    this.annonceService.getCommodites().subscribe(data => this.commodites = data);
+    this.annonceService.getRegions().subscribe(data => { this.regions = data; this.cdr.detectChanges(); });
+    this.annonceService.getTypesBien().subscribe(data => { this.typesBien = data; this.cdr.detectChanges(); });
+    this.annonceService.getCommodites().subscribe(data => { this.commodites = data; this.cdr.detectChanges(); });
 
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -59,6 +60,7 @@ export class AnnonceFormPage implements OnInit {
           typeBienId: annonce.typeBien.id,
           commoditeIds: annonce.commodites.map(c => c.id)
         });
+        this.cdr.detectChanges();
       });
     }
   }

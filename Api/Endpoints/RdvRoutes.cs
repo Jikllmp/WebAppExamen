@@ -12,7 +12,7 @@ public static class RdvRoutes
 
         group.MapPost("", ([FromBody] CreateRdvRequest request, IRdvUseCases useCases, HttpContext httpContext) =>
         {
-            var particulierId = int.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var particulierId = int.Parse(httpContext.User.FindFirst("nameid")!.Value);
             useCases.CreateRdv(particulierId, request.AnnonceId, request.DateRdv);
             return Results.Created();
         })
@@ -29,7 +29,7 @@ public static class RdvRoutes
 
         group.MapGet("/mes-rdv", (IRdvUseCases useCases, HttpContext httpContext) =>
         {
-            var userId = int.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var userId = int.Parse(httpContext.User.FindFirst("nameid")!.Value);
             var rdvs = useCases.GetAllRdv(userId);
             return Results.Ok(rdvs);
         })
@@ -38,7 +38,7 @@ public static class RdvRoutes
 
         group.MapGet("/agence", (IRdvUseCases useCases, HttpContext httpContext) =>
         {
-            var agenceId = int.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var agenceId = int.Parse(httpContext.User.FindFirst("nameid")!.Value);
             var rdvs = useCases.GetAllRdv2(agenceId);
             return Results.Ok(rdvs);
         })

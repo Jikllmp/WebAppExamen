@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Rdv } from '../../services/api/rdv';
@@ -17,22 +17,30 @@ export class MesRdvPage implements OnInit {
 
   constructor(
     private rdvService: Rdv,
-    private authState: AuthStateService
+    private authState: AuthStateService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
     this.isAgence = this.authState.getRole() === 'Agence';
 
     if (this.isAgence) {
-      this.rdvService.getRdvAgence().subscribe(data => this.rdvs = data);
+      this.rdvService.getRdvAgence().subscribe(data => {
+        this.rdvs = data;
+        this.cdr.detectChanges();
+      });
     } else {
-      this.rdvService.getMesRdv().subscribe(data => this.rdvs = data);
+      this.rdvService.getMesRdv().subscribe(data => {
+        this.rdvs = data;
+        this.cdr.detectChanges();
+      });
     }
   }
 
   annuler(id: number): void {
     this.rdvService.cancel(id).subscribe(() => {
       this.rdvs = this.rdvs.filter(r => r.id !== id);
+      this.cdr.detectChanges();
     });
   }
 }

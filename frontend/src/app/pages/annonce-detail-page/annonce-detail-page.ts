@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnnonceService } from '../../services/api/annonce';
@@ -25,12 +25,16 @@ export class AnnonceDetailPage implements OnInit {
     private annonceService: AnnonceService,
     public authState: AuthStateService,
     private rdvService: Rdv,
-    private favoriService: FavoriService
+    private favoriService: FavoriService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.annonceService.getById(id).subscribe(data => this.annonce = data);
+    this.annonceService.getById(id).subscribe(data => {
+      this.annonce = data;
+      this.cdr.detectChanges();
+    });
   }
 
   prendreRdv(): void {
@@ -41,12 +45,13 @@ export class AnnonceDetailPage implements OnInit {
 
     if (!this.dateRdv || !this.annonce) {
       this.message = 'Choisis une date.';
+      this.cdr.detectChanges();
       return;
     }
 
     this.rdvService.create(this.annonce.id, this.dateRdv).subscribe({
-      next: () => this.message = 'Rendez-vous demandé avec succès !',
-      error: () => this.message = 'Erreur lors de la prise de rendez-vous.'
+      next: () => { this.message = 'Rendez-vous demandé avec succès !'; this.cdr.detectChanges(); },
+      error: () => { this.message = 'Erreur lors de la prise de rendez-vous.'; this.cdr.detectChanges(); }
     });
   }
 
@@ -59,8 +64,8 @@ export class AnnonceDetailPage implements OnInit {
     if (!this.annonce) return;
 
     this.favoriService.add(this.annonce.id).subscribe({
-      next: () => this.message = 'Ajouté aux favoris !',
-      error: () => this.message = 'Erreur lors de l\'ajout aux favoris.'
+      next: () => { this.message = 'Ajouté aux favoris !'; this.cdr.detectChanges(); },
+      error: () => { this.message = 'Erreur lors de l\'ajout aux favoris.'; this.cdr.detectChanges(); }
     });
   }
 }

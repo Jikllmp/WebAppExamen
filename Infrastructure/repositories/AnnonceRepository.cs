@@ -20,14 +20,20 @@ public class AnnonceRepository : IAnnonceRepository
 
     public IEnumerable<Annonce> GetAll()
     {
-        const string sql = "SELECT * FROM Annonce";
+        const string sql = @"SELECT Id, Titre AS Tite, Description, Prix, 
+            NombrePieces AS NbPieces, Superficie, Jardin, Garage, 
+            DatePublication, AgenceId, TypeBienId, RegionId 
+            FROM Annonce";
         using var conn = CreateConnection();
         return conn.Query<Annonce>(sql);
     }
 
     public Annonce? GetById(int id)
     {
-        const string sql = "SELECT * FROM Annonce WHERE Id = @Id";
+        const string sql = @"SELECT Id, Titre AS Tite, Description, Prix, 
+            NombrePieces AS NbPieces, Superficie, Jardin, Garage, 
+            DatePublication, AgenceId, TypeBienId, RegionId 
+            FROM Annonce WHERE Id = @Id";
         using var conn = CreateConnection();
         return conn.QuerySingleOrDefault<Annonce>(sql, new { Id = id });
     }
@@ -41,10 +47,10 @@ public class AnnonceRepository : IAnnonceRepository
         using var conn = CreateConnection();
         var annonceId = conn.ExecuteScalar<int>(sql, new
         {
-            annonce.Tite,
+            Titre = annonce.Tite,
             annonce.Description,
             annonce.Prix,
-            annonce.NbPieces,
+            NombrePieces = annonce.NbPieces,
             annonce.Superficie,
             annonce.Jardin,
             annonce.Garage,
@@ -69,7 +75,19 @@ public class AnnonceRepository : IAnnonceRepository
             TypeBienId = @TypeBienId, RegionId = @RegionId
             WHERE Id = @Id";
         using var conn = CreateConnection();
-        conn.Execute(sql, annonce);
+        conn.Execute(sql, new
+        {
+            annonce.Id,
+            Titre = annonce.Tite,
+            annonce.Description,
+            annonce.Prix,
+            NombrePieces = annonce.NbPieces,
+            annonce.Superficie,
+            annonce.Jardin,
+            annonce.Garage,
+            annonce.TypeBienId,
+            annonce.RegionId
+        });
 
         const string sqlDelete = "DELETE FROM AnnonceCommodite WHERE AnnonceId = @AnnonceId";
         conn.Execute(sqlDelete, new { AnnonceId = annonce.Id });
@@ -97,14 +115,14 @@ public class AnnonceRepository : IAnnonceRepository
 
     public IEnumerable<TypeB> GetAllTypesBien()
     {
-        const string sql = "SELECT * FROM TypeBien";
+        const string sql = @"SELECT Id, Libelle AS Libele FROM TypeBien";
         using var conn = CreateConnection();
         return conn.Query<TypeB>(sql);
     }
 
     public IEnumerable<Commodite> GetAllCommodites()
     {
-        const string sql = "SELECT * FROM Commodite";
+        const string sql = @"SELECT Id, Libelle AS Libele FROM Commodite";
         using var conn = CreateConnection();
         return conn.Query<Commodite>(sql);
     }

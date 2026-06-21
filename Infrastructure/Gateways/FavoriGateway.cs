@@ -7,10 +7,12 @@ namespace Infrastructure.Gateways;
 public class FavoriGateway : IFavoriGateway
 {
     private readonly IFavoriRepository _repo;
+    private readonly IAnnonceGateway _annonceGateway;
 
-    public FavoriGateway(IFavoriRepository repo)
+    public FavoriGateway(IFavoriRepository repo, IAnnonceGateway annonceGateway)
     {
         _repo = repo;
+        _annonceGateway = annonceGateway;
     }
 
     public void AddFavoris(int id_annonce, int id_user)
@@ -23,7 +25,7 @@ public class FavoriGateway : IFavoriGateway
         => _repo.GetByUser(user).Select(f => new Favori
         {
             Utilisateur = new Utilisateur { Id = f.UserId },
-            Annonce = new Annonce { Id = f.AnnonceId },
+            Annonce = _annonceGateway.GetAnnonceById(f.AnnonceId) ?? new Annonce { Id = f.AnnonceId },
             DateAjout = f.DateAjout
         });
 }

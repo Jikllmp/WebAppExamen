@@ -12,10 +12,9 @@ export const routes: Routes = [
   { path: '', component: HomePage },
   { path: 'login', component: LoginPageComponent },
   { path: 'register', component: RegisterPageComponent },
-  { path: 'annonces/:id', component: AnnonceDetailPage },
   { path: 'favoris', component: FavorisPage },
   { path: 'mes-rdv', component: MesRdvPage },
   { path: 'annonces/nouvelle', component: AnnonceFormPage },
-{ path: 'annonces/:id/modifier', component: AnnonceFormPage }
-
+  { path: 'annonces/:id/modifier', component: AnnonceFormPage },
+  { path: 'annonces/:id', component: AnnonceDetailPage }
 ];

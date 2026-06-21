@@ -10,7 +10,7 @@
     <div class="filter-group">
       <label>Région</label>
       <select [(ngModel)]="filtreRegionId">
-        <option [value]="null">Toutes</option>
+        <option value="">Toutes</option>
         @for (region of regions; track region.id) {
           <option [value]="region.id">{{ region.nom }}</option>
         }
@@ -20,7 +20,7 @@
     <div class="filter-group">
       <label>Type de bien</label>
       <select [(ngModel)]="filtreTypeBienId">
-        <option [value]="null">Tous</option>
+        <option value="">Toutes</option>
         @for (type of typesBien; track type.id) {
           <option [value]="type.id">{{ type.libelle }}</option>
         }
